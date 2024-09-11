@@ -10,6 +10,7 @@
       rel="stylesheet"
     />
   </head>
+
   <body style="background-color: #101010; color: #ffffff">
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
@@ -27,20 +28,19 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
-            <a 
-            v-for="(link , index) in links" 
-            :key = index
-            class="nav-link active" 
-            aria-current="page" 
-            :href="link.url" 
-            :title=" `this link goes to ${link.text}` 
-            
-            
-            "> 
-            
-            {{ link.text }} 
-        
-        </a>
+            <a
+              v-for="(page , index) in pages"
+              :key="index"
+              class="nav-link active"
+              aria-current="page"
+              :href="page.link.url"
+              :title=" `this link goes to ${page.link.text}`"
+              
+              v-on:click.prevent = "activePage = index"
+              
+            >
+              {{ page.link.text }}
+            </a>
             <!-- <a class="nav-link" href="#">{{ links[1] }}</a>
             <a class="nav-link" href="#">{{ links[2] }}</a> -->
           </div>
@@ -49,36 +49,35 @@
     </nav>
 
     <div id="content" class="container">
-      <h1>{{ pageTitle }}</h1>
-      <p>{{ content }}</p>
+      <h1 >{{ pages[activePage].pageTitle }}</h1>
+      <p>{{ pages[activePage].content }}</p>
     </div>
 
     <script>
-        Vue.createApp({
-            data(){
-                return{
-                    // links : ["Home" , "About" , "Contact"]
-
-                    links:[
-                        {text : "Home" , url : "home.html"},
-                        {text : "About" , url : "about.html"},
-                        {text : "Contact" , url : "contact.html"},
-
-                    ]
-                }
-            }
-        }).mount("nav");
-
-
-
       Vue.createApp({
         data() {
           return {
-            pageTitle: "Vue js",
-            content: "welcome to the learing process of vue js",
+            activePage : 0,
+            pages: [
+              {
+                link: { text: "Home", url: "home.html" },
+                pageTitle: "Home Page",
+                content: "This is the home content",
+              },
+              {
+                link: { text: "About", url: "about.html" },
+                pageTitle: "About Page",
+                content: "This is the about content",
+              },
+              {
+                link: { text: "contact", url: "contact.html" },
+                pageTitle: "Contact Page",
+                content: "This is the Contact content",
+              },
+            ],
           };
         },
-      }).mount("#content");
+      }).mount("body");
     </script>
   </body>
 </html>
